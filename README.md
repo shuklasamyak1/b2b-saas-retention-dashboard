@@ -1,62 +1,36 @@
-# B2B SaaS Revenue & Customer Retention Intelligence Dashboard
+# B2B SaaS Revenue & Customer Retention Intelligence Engine
 
-An end-to-end business intelligence engine designed to analyze subscription lifecycles, monitor Monthly Recurring Revenue (MRR), and diagnose customer churn dynamics across a multi-tier B2B SaaS portfolio.
+> An end-to-end business intelligence engine designed to model €49K ARR subscription lifecycles, isolate revenue leakage, and diagnose account churn across multi-tier SaaS cohorts.
 
----
-
-## 📌 Executive Summary
-* **Total Tracked Portfolio:** €49.00K Monthly Recurring Revenue (MRR)
-* **Active Retained MRR:** €17.93K across enterprise and mid-market accounts
-* **Lost / Churned MRR:** €13.67K isolated for targeted retention intervention
-* **Architecture:** PostgreSQL Star Schema $\rightarrow$ Power BI Data Engine $\rightarrow$ DAX Metric Layer
+![Dashboard Preview](./dashboard_preview.png)
 
 ---
 
-## 🛠️ Architecture & Data Modeling
-
-### 1. Relational Star Schema (PostgreSQL $\rightarrow$ Power BI)
-* **Fact Table (`Subscriptions Fact`):** Captures atomic subscription events, billing amounts, contract start/end dates, and account status.
-* **Dimension Tables:**
-  * `Customers`: Company profiles, country codes, and industry sector metadata.
-  * `Plans`: Tier structures, baseline pricing, and feature access tiers.
-  * `Calendar`: Dynamically generated DAX date table supporting chronological time-series analysis and month-over-month comparisons.
-
-### 2. Advanced DAX Business Logic
-* **Active MRR:** Isolates ongoing active subscription cash flow while accounting for global and visual filter contexts:
-  $$\text{Active MRR} = \sum(\text{Amount}) \quad \text{where Status} = \text{"Active"}$$
-* **Cancelled MRR:** Tracks aggregate revenue leakage from churned accounts.
-* **Portfolio Churn Rate %:** Evaluates health via dynamic baseline comparison:
-  $$\text{Churn Rate} = \frac{\text{Cancelled MRR}}{\text{Active MRR} + \text{Cancelled MRR}}$$
+##  Tech Stack & Architecture
+- **Database Layer:** PostgreSQL (Relational Schema Design, Foreign Key Constraints, Table Normalization)
+- **Transformation & Querying:** Analytical SQL (Aggregations, Window Functions, Inner/Left Joins)
+- **Semantic Layer & Analytics:** Microsoft Power BI, Star Schema Modeling
+- **Business Logic & Metrics:** Advanced DAX (Variable Scoping, Filter Context Manipulation)
 
 ---
 
-## 📊 Dashboard Modules
+##  Business Logic & Metric Formulations
 
-* **Page 1: Executive Portfolio Overview**
-  * High-level KPI summary cards for instant ARR/MRR visibility.
-  * Geographic revenue distribution by market (Germany, UK, France, Netherlands, Sweden).
-  * Sector concentration breakdown across Fintech, Healthtech, EdTech, Logistics, and E-Commerce.
+### 1. Active Monthly Recurring Revenue (MRR)
+Isolates active subscription cash flow while respecting visual filter contexts:
+$$\text{Active MRR} = \sum_{i \in \text{Active}} \text{Amount}_i$$
 
-* **Page 2: Retention & Growth Trends**
-  * Time-series smooth area retention curves tracking status evolution.
-  * Account-level cross-tabulated revenue matrix.
-  * Interactive cross-filtering, dynamic page navigation, and instant filter-reset controls.
+### 2. Cancelled MRR (Revenue Leakage)
+Aggregates churned subscription value across lost accounts to target retention interventions:
+$$\text{Cancelled MRR} = \sum_{i \in \text{Cancelled}} \text{Amount}_i$$
 
-* **Diagnostic Layer:**
-  * Report-page hover tooltips providing granular account previews.
-  * Granular account identification for customer success outreach.
+### 3. Portfolio Churn Rate %
+Evaluates portfolio health via dynamic baseline comparison:
+$$\text{Churn Rate \%} = \left( \frac{\text{Cancelled MRR}}{\text{Active MRR} + \text{Cancelled MRR}} \right) \times 100$$
 
 ---
 
-## 📁 Repository Structure
-* `/B2B_SaaS_Analytics.pbix` — Full interactive Power BI report file.
-* `/B2B_SaaS_Revenue_Retention_Dashboard.pdf` — High-resolution executive slide deck.
-* `/dashboard_demo.mp4` — 60-second interactive feature walkthrough.
-* `/schema.sql` — PostgreSQL schema definitions and relationship constraints.
-
----
-
-## 💻 Tech Stack
-* **Database & Querying:** PostgreSQL, SQL
-* **Data Modeling & BI:** Microsoft Power BI Desktop
-* **Calculations & Analytics:** DAX (Data Analysis Expressions)
+##  Key Insights Delivered
+- **Revenue Leakage Isolation:** Diagnosed ARR drop-offs across specific customer tiers.
+- **Dynamic Cohort Retention:** Visualized subscription life cycles using interactive time-series retention area curves.
+- **Relational Data Integrity:** Ensured 100% referential integrity across dimensional entities via PostgreSQL primary and foreign key architectures.
