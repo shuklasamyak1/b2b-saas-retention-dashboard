@@ -2,6 +2,7 @@
 
 > An end-to-end business intelligence engine designed to model **€49K ARR** subscription lifecycles, isolate revenue leakage, and diagnose account churn across multi-tier SaaS cohorts.
 
+![Dashboard Preview](./dashboard_preview.png)
 ---
 
 ##  Tech Stack & Architecture
