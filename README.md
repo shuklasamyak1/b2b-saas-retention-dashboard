@@ -59,4 +59,4 @@ RETURN
         0
     )
 ```
-![Dashboard Preview](./dashboard_preview2.png)
+![Dashboard Preview](./Dashboard_preview_Interact.gif)
