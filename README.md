@@ -35,13 +35,32 @@ $$\text{Churn Rate \%} = \left( \frac{\text{Cancelled MRR}}{\text{Active MRR} + 
 - **Dynamic Cohort Retention:** Visualized subscription life cycles using interactive time-series retention area curves.
 - **Relational Data Integrity:** Ensured 100% referential integrity across dimensional entities via PostgreSQL primary and foreign key architectures.
 
-##  Relational Schema Design (Star Schema)
+##  Relational Schema & SQL Engineering
 
-The PostgreSQL data model is structured to separate high-frequency transaction facts from descriptive dimensional attributes:
+```
+[dim_customers] (customer_id PK) ──< [fact_subscriptions] (subscription_id PK, customer_id FK, start_date FK)
+                                              │
+[dim_date]      (date_key PK)    ─────────────┘
+```
 
-* **Fact Tables:** `fact_subscriptions` (capturing transactional changes, MRR amounts, status timestamps, foreign key mapping).
-* **Dimension Tables:** `dim_customers` (account tiers, acquisition channels, geographical metadata), `dim_date` (standard calendar dimensions supporting dynamic DAX time intelligence).
-* **Referential Integrity:** Enforced primary and foreign key constraints across relational entities to ensure zero orphaned records.
+```sql
+-- Monthly Active MRR & Period-over-Period Delta Calculation
+WITH monthly_metrics AS (
+    SELECT
+        d.year_month,
+        SUM(f.mrr_amount) AS current_mrr
+    FROM fact_subscriptions f
+    JOIN dim_date d ON f.start_date_key = d.date_key
+    WHERE f.status = 'Active'
+    GROUP BY d.year_month
+)
+SELECT
+    year_month,
+    current_mrr,
+    LAG(current_mrr, 1, 0) OVER (ORDER BY year_month) AS previous_mrr,
+    (current_mrr - LAG(current_mrr, 1, 0) OVER (ORDER BY year_month)) AS mrr_growth_delta
+FROM monthly_metrics;
+```
 
 ---
 
@@ -59,4 +78,6 @@ RETURN
         0
     )
 ```
+
+
 ![Dashboard Preview](./Dashboard_preview_Interact.gif)
