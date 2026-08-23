@@ -42,7 +42,7 @@ https://github.com/user-attachments/assets/app.mp4
                                       │
               ┌───────────────────────┴───────────────────────┐
               ▼                                               ▼
-[Strategic BI Reporting]                        [Operational Decision Engine]
+[Strategic BI Reporting]                                     [Operational Decision Engine]
 * Microsoft Power BI + DAX                      * Python (Scikit-Learn Gradient Boosting)
 * Historical Cohort Retention Curves            * Dynamic CLV Estimation Engine
 * Expansion vs. Contraction MRR                 * PuLP Prescriptive Knapsack MILP
