@@ -26,46 +26,32 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
-    
-    /* Strict Color Lock for ALL Headings & Paragraphs in Main Body */
-    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
-    .stApp [data-testid="stMarkdownContainer"] h1,
-    .stApp [data-testid="stMarkdownContainer"] h2,
-    .stApp [data-testid="stMarkdownContainer"] h3,
-    .stApp [data-testid="stMarkdownContainer"] h4,
-    .stApp [data-testid="stMarkdownContainer"] h5,
-    .stApp [data-testid="stMarkdownContainer"] h6 {
-        color: #1D3635 !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-weight: 800 !important;
-        letter-spacing: -0.4px !important;
+
+    /* 1. ELIMINATE BROKEN STREAMLIT ICON ARTIFACTS */
+    [data-testid="stSidebarCollapseButton"],
+    button[kind="header"] {
+        display: none !important;
     }
 
-    .stApp p, .stApp span, .stApp div {
-        color: #1D3635;
-    }
-
-    /* Sidebar Styling & Fix Top Padding for Toggle */
+    /* 2. SIDEBAR STYLING & CLEAN TOP PADDING */
     section[data-testid="stSidebar"] {
         background-color: #1D3635 !important;
         border-right: 1px solid rgba(205, 180, 219, 0.3) !important;
     }
 
     section[data-testid="stSidebar"] > div:first-child {
-        padding-top: 3.5rem !important;
+        padding-top: 2rem !important;
     }
 
-    section[data-testid="stSidebar"] * {
+    /* 3. STRICT HIGH-CONTRAST SIDEBAR HEADERS & LABELS */
+    .sidebar-title {
         color: #FFFFFF !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
-    }
-    
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3,
-    section[data-testid="stSidebar"] h4 {
-        color: #FFFFFF !important;
+        font-size: 1.25rem !important;
         font-weight: 800 !important;
+        letter-spacing: -0.3px !important;
+        margin-bottom: 1.2rem !important;
+        display: block !important;
     }
 
     section[data-testid="stSidebar"] label,
@@ -73,6 +59,7 @@ st.markdown("""
     section[data-testid="stSidebar"] label p,
     section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p {
         color: #FFFFFF !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-size: 0.92rem !important;
         font-weight: 600 !important;
         opacity: 1 !important;
@@ -95,7 +82,25 @@ st.markdown("""
         background-color: #6DD5ED !important;
     }
 
-    /* Executive KPI Metric Cards */
+    /* 4. MAIN CANVAS HEADERS & TEXT */
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+    .stApp [data-testid="stMarkdownContainer"] h1,
+    .stApp [data-testid="stMarkdownContainer"] h2,
+    .stApp [data-testid="stMarkdownContainer"] h3,
+    .stApp [data-testid="stMarkdownContainer"] h4,
+    .stApp [data-testid="stMarkdownContainer"] h5,
+    .stApp [data-testid="stMarkdownContainer"] h6 {
+        color: #1D3635 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.4px !important;
+    }
+
+    .stApp p, .stApp span, .stApp div {
+        color: #1D3635;
+    }
+
+    /* 5. EXECUTIVE KPI CARDS */
     .metric-card {
         background: #2C5554;
         border: 1px solid #CDB4DB;
@@ -128,7 +133,7 @@ st.markdown("""
         margin-top: 4px;
     }
 
-    /* Tabs Styling */
+    /* 6. TABS STYLING */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         border-bottom: 2px solid #2C5554;
@@ -220,7 +225,7 @@ df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.subheader("Retention Parameters")
+st.sidebar.markdown('<span class="sidebar-title">Retention Parameters</span>', unsafe_allow_html=True)
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
