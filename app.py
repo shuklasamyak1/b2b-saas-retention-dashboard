@@ -15,69 +15,58 @@ st.set_page_config(
 )
 
 # --- REFINED EDITORIAL PALETTE & TYPOGRAPHY STYLING ---
-# Palette:
-# App Background: Soft Light Rose / Oyster White (#F8F4F6)
-# Sidebar: Deep Slate Forest (#1D3635)
-# Card Containers: Slate Teal (#2C5554)
-# Primary Highlights: #6DD5ED (Sky Blue) & #FFFFFF (Pure White)
-# Secondary Accents: #CDB4DB (Thistle) & #574951 (Slate Charcoal)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
     /* Global Base */
     .stApp {
-        background-color: #F8F4F6;
+        background-color: #FAF2F4;
         color: #1E293B;
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         -webkit-font-smoothing: antialiased;
     }
     
-    /* Sidebar Strict Contrast Fixes */
+    /* Sidebar Background */
     section[data-testid="stSidebar"] {
         background-color: #1D3635 !important;
-        border-right: 1px solid rgba(205, 180, 219, 0.25) !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        border-right: 1px solid rgba(205, 180, 219, 0.3) !important;
     }
-    section[data-testid="stSidebar"] h1, 
-    section[data-testid="stSidebar"] h2, 
-    section[data-testid="stSidebar"] h3,
-    section[data-testid="stSidebar"] h4,
-    section[data-testid="stSidebar"] .stMarkdown,
-    section[data-testid="stSidebar"] .stMarkdown p {
+
+    /* Force Pure White Text on Sidebar Headings & Paragraphs */
+    section[data-testid="stSidebar"] * {
         color: #FFFFFF !important;
-        font-weight: 700 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
-    /* Target Slider Labels & Numerical Values Directly */
+    /* Target Slider Labels, Tick Marks, and Sub-values Explicitly */
     section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] label span,
     section[data-testid="stSidebar"] label p,
-    section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p {
+    section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p,
+    section[data-testid="stSidebar"] div[data-testid="stSliderTickBar"] span {
         color: #FFFFFF !important;
         font-size: 0.92rem !important;
         font-weight: 600 !important;
+        opacity: 1 !important;
     }
-    
-    /* Active Slider Number Indicator */
+
+    /* Slider Numerical Value & Thumb */
     section[data-testid="stSidebar"] div[data-testid="stThumbValue"] {
-        color: #1D3635 !important;
+        color: #000000 !important;
         background-color: #6DD5ED !important;
         font-family: 'Space Mono', monospace !important;
         font-weight: 700 !important;
+        font-size: 0.85rem !important;
         border-radius: 4px !important;
-        padding: 2px 6px !important;
+        padding: 3px 8px !important;
     }
-    
-    /* Slider Track Styling */
-    section[data-testid="stSidebar"] div[role="slider"] {
-        background-color: #6DD5ED !important;
-        border: 2px solid #FFFFFF !important;
-        box-shadow: 0 0 6px rgba(109, 213, 237, 0.5) !important;
+
+    /* Slider Bar Colors */
+    section[data-testid="stSidebar"] [data-baseweb="slider"] div div {
+        background-color: rgba(255, 255, 255, 0.3) !important;
     }
-    section[data-testid="stSidebar"] div[data-testid="stSlider"] div[data-baseweb="slider"] div div {
-        background-color: rgba(255, 255, 255, 0.2) !important;
-    }
-    section[data-testid="stSidebar"] div[data-testid="stSlider"] div[data-baseweb="slider"] div div div {
+    section[data-testid="stSidebar"] [data-baseweb="slider"] div div div {
         background-color: #6DD5ED !important;
     }
 
@@ -114,40 +103,47 @@ st.markdown("""
         margin-top: 4px;
     }
 
-    /* Tabs Styling */
+    /* High-Contrast Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        border-bottom: 2px solid #CDB4DB;
+        border-bottom: 2px solid #2C5554;
+        background-color: transparent !important;
     }
+    
+    /* Unselected Tab */
     .stTabs [data-baseweb="tab"] {
-        background-color: #EADCE0 !important;
+        background-color: #E6D8DC !important;
         border-radius: 6px 6px 0 0 !important;
-        color: #574951 !important;
-        padding: 8px 18px !important;
+        padding: 10px 20px !important;
         border: 1px solid #CDB4DB !important;
         border-bottom: none !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
     }
-    .stTabs [aria-selected="true"] {
-        background-color: #2C5554 !important;
-        color: #6DD5ED !important;
-        border: 1px solid #2C5554 !important;
-        border-bottom: 2px solid #6DD5ED !important;
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
+        color: #234544 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-size: 0.88rem !important;
         font-weight: 700 !important;
     }
 
-    /* Headings & Text */
+    /* Selected Tab */
+    .stTabs [aria-selected="true"] {
+        background-color: #2C5554 !important;
+        border: 1px solid #2C5554 !important;
+        border-bottom: 3px solid #6DD5ED !important;
+    }
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #6DD5ED !important;
+        font-weight: 800 !important;
+    }
+
+    /* Main Page Headings */
     h1, h2, h3, h4 {
         color: #1D3635 !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 800 !important;
         letter-spacing: -0.5px;
-    }
-    p, span {
-        color: #334155;
-        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -167,7 +163,6 @@ def generate_saas_data(n_accounts=300):
     support_tickets = np.random.poisson(lam=3, size=n_accounts)
     license_utilization = np.random.uniform(0.2, 0.98, size=n_accounts)
     
-    # Ground truth logistic probability
     logits = (
         -0.05 * tenure_months 
         - 0.08 * logins_weekly 
@@ -206,11 +201,11 @@ clf.fit(X_scaled, y)
 
 df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 
-# CLV Formulation (Assuming 80% Gross Margin with baseline hazard rate cap)
+# CLV Formulation
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.markdown("<h3 style='color: #6DD5ED; margin-bottom: 12px;'>Retention Budget & Parameters</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color: #6DD5ED; margin-bottom: 12px;'>Retention Parameters</h3>", unsafe_allow_html=True)
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
@@ -220,10 +215,8 @@ def optimize_retention(df, budget, cost_per_offer, uplift):
     prob = pulp.LpProblem("Retention_Budget_Optimization", pulp.LpMaximize)
     accounts = df["Account_ID"].tolist()
     
-    # Binary treatment decisions
     x = {a: pulp.LpVariable(f"Treat_{a}", cat="Binary") for a in accounts}
     
-    # Net Expected Saved Value
     value_map = {}
     for _, row in df.iterrows():
         a = row["Account_ID"]
@@ -279,7 +272,7 @@ with k4:
 PLOTLY_THEME = {
     "layout": {
         "paper_bgcolor": "#FFFFFF",
-        "plot_bgcolor": "#F8F4F6",
+        "plot_bgcolor": "#FAF2F4",
         "font": {"color": "#1E293B", "family": "Plus Jakarta Sans, sans-serif"},
         "xaxis": {
             "gridcolor": "#E2E8F0",
@@ -303,7 +296,6 @@ with tab1:
     
     ledger_data = df_cohort[df_cohort["Target_Intervention"] == 1].sort_values(by="Expected_Saved_ARR", ascending=False).copy()
     
-    # Visual KPI Metric Display for Top Action
     col_t1, col_t2 = st.columns([3, 1])
     with col_t2:
         st.markdown(f"""
@@ -352,7 +344,6 @@ with tab2:
     with col_chart:
         fig_scatter = go.Figure()
 
-        # Non-Targeted Accounts
         pass_df = df_cohort[df_cohort["Target_Intervention"] == 0]
         fig_scatter.add_trace(go.Scatter(
             x=pass_df["Predicted_Churn_Prob"] * 100,
@@ -368,7 +359,6 @@ with tab2:
             text=pass_df["Account_ID"]
         ))
 
-        # Targeted Accounts
         treat_df = df_cohort[df_cohort["Target_Intervention"] == 1]
         fig_scatter.add_trace(go.Scatter(
             x=treat_df["Predicted_Churn_Prob"] * 100,
