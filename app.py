@@ -19,39 +19,52 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
-    /* Global Base */
+    /* Global App Canvas */
     .stApp {
-        background-color: #FAF2F4;
-        color: #1E293B;
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #FAF2F4 !important;
+        color: #1D3635 !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
     
-    /* Sidebar Background */
+    /* Strict Color Lock for ALL Headings & Paragraphs in Main Body */
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+    .stApp [data-testid="stMarkdownContainer"] h1,
+    .stApp [data-testid="stMarkdownContainer"] h2,
+    .stApp [data-testid="stMarkdownContainer"] h3,
+    .stApp [data-testid="stMarkdownContainer"] h4,
+    .stApp [data-testid="stMarkdownContainer"] h5,
+    .stApp [data-testid="stMarkdownContainer"] h6 {
+        color: #1D3635 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.4px !important;
+    }
+
+    .stApp p, .stApp span, .stApp div {
+        color: #1D3635;
+    }
+
+    /* Sidebar Styling & High Contrast */
     section[data-testid="stSidebar"] {
         background-color: #1D3635 !important;
         border-right: 1px solid rgba(205, 180, 219, 0.3) !important;
     }
 
-    /* Force Pure White Text on Sidebar Headings & Paragraphs */
     section[data-testid="stSidebar"] * {
         color: #FFFFFF !important;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     
-    /* Target Slider Labels, Tick Marks, and Sub-values Explicitly */
     section[data-testid="stSidebar"] label,
     section[data-testid="stSidebar"] label span,
     section[data-testid="stSidebar"] label p,
-    section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p,
-    section[data-testid="stSidebar"] div[data-testid="stSliderTickBar"] span {
+    section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p {
         color: #FFFFFF !important;
         font-size: 0.92rem !important;
         font-weight: 600 !important;
-        opacity: 1 !important;
     }
 
-    /* Slider Numerical Value & Thumb */
     section[data-testid="stSidebar"] div[data-testid="stThumbValue"] {
         color: #000000 !important;
         background-color: #6DD5ED !important;
@@ -62,7 +75,6 @@ st.markdown("""
         padding: 3px 8px !important;
     }
 
-    /* Slider Bar Colors */
     section[data-testid="stSidebar"] [data-baseweb="slider"] div div {
         background-color: rgba(255, 255, 255, 0.3) !important;
     }
@@ -70,7 +82,7 @@ st.markdown("""
         background-color: #6DD5ED !important;
     }
 
-    /* Executive KPI Metric Containers */
+    /* Executive KPI Metric Cards */
     .metric-card {
         background: #2C5554;
         border: 1px solid #CDB4DB;
@@ -82,7 +94,7 @@ st.markdown("""
     .metric-sub {
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 0.74rem;
-        color: #CDB4DB;
+        color: #CDB4DB !important;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
@@ -92,25 +104,24 @@ st.markdown("""
         font-family: 'Space Mono', monospace;
         font-size: 1.65rem;
         font-weight: 700;
-        color: #6DD5ED;
+        color: #6DD5ED !important;
         letter-spacing: -0.5px;
         line-height: 1.2;
     }
     .metric-caption {
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 0.75rem;
-        color: #F1F5F9;
+        color: #F1F5F9 !important;
         margin-top: 4px;
     }
 
-    /* High-Contrast Tabs Styling */
+    /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         border-bottom: 2px solid #2C5554;
         background-color: transparent !important;
     }
     
-    /* Unselected Tab */
     .stTabs [data-baseweb="tab"] {
         background-color: #E6D8DC !important;
         border-radius: 6px 6px 0 0 !important;
@@ -120,13 +131,12 @@ st.markdown("""
     }
     .stTabs [data-baseweb="tab"] p,
     .stTabs [data-baseweb="tab"] span {
-        color: #234544 !important;
+        color: #1D3635 !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-size: 0.88rem !important;
         font-weight: 700 !important;
     }
 
-    /* Selected Tab */
     .stTabs [aria-selected="true"] {
         background-color: #2C5554 !important;
         border: 1px solid #2C5554 !important;
@@ -136,14 +146,6 @@ st.markdown("""
     .stTabs [aria-selected="true"] span {
         color: #6DD5ED !important;
         font-weight: 800 !important;
-    }
-
-    /* Main Page Headings */
-    h1, h2, h3, h4 {
-        color: #1D3635 !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-weight: 800 !important;
-        letter-spacing: -0.5px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -252,7 +254,7 @@ total_arr_saved = df_cohort["Expected_Saved_ARR"].sum()
 net_roi = ((total_arr_saved - total_spend_allocated) / total_spend_allocated) * 100 if total_spend_allocated > 0 else 0
 
 # --- UI HEADER ---
-st.markdown("<h1 style='margin-bottom: 2px;'>B2B SaaS Customer Retention & CLV Decision Engine</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='margin-bottom: 2px; color: #1D3635;'>B2B SaaS Customer Retention & CLV Decision Engine</h1>", unsafe_allow_html=True)
 st.markdown("<p style='color: #574951; font-size: 0.95rem; margin-top: 0px;'>Predictive ML Churn Risk Scoring, Calibrated CLV, and Prescriptive MILP Budget Optimization</p>", unsafe_allow_html=True)
 
 # --- KPI METRICS STRIP ---
@@ -266,23 +268,23 @@ with k2:
 with k3:
     st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Net Campaign ROI</div><div class='metric-val' style='color: #CDB4DB;'>{net_roi:.1f}%</div><div class='metric-caption'>Net protected ARR / spend</div></div>""", unsafe_allow_html=True)
 with k4:
-    st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Cohort At-Risk ARR</div><div class='metric-val' style='color: #FEA6A2;'>€{(df_cohort['Predicted_Churn_Prob'] * df_cohort['ARR']).sum():,.0f}</div><div class='metric-caption'>Gross churn exposure</div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Cohort At-Risk ARR</div><div class='metric-val' style='color: #FFAAA6;'>€{(df_cohort['Predicted_Churn_Prob'] * df_cohort['ARR']).sum():,.0f}</div><div class='metric-caption'>Gross churn exposure</div></div>""", unsafe_allow_html=True)
 
 # Plotly Canvas Theme
 PLOTLY_THEME = {
     "layout": {
         "paper_bgcolor": "#FFFFFF",
         "plot_bgcolor": "#FAF2F4",
-        "font": {"color": "#1E293B", "family": "Plus Jakarta Sans, sans-serif"},
+        "font": {"color": "#1D3635", "family": "Plus Jakarta Sans, sans-serif"},
         "xaxis": {
             "gridcolor": "#E2E8F0",
             "zerolinecolor": "#CBD5E1",
-            "tickfont": {"family": "Space Mono, monospace", "size": 11}
+            "tickfont": {"family": "Space Mono, monospace", "size": 11, "color": "#1D3635"}
         },
         "yaxis": {
             "gridcolor": "#E2E8F0",
             "zerolinecolor": "#CBD5E1",
-            "tickfont": {"family": "Space Mono, monospace", "size": 11}
+            "tickfont": {"family": "Space Mono, monospace", "size": 11, "color": "#1D3635"}
         }
     }
 }
@@ -291,7 +293,7 @@ PLOTLY_THEME = {
 tab1, tab2 = st.tabs(["Prescriptive Retention Ledger", "Risk Exposure vs. Lifetime Value Matrix"])
 
 with tab1:
-    st.markdown("### High-Priority Account Intervention Ledger")
+    st.markdown("<h3 style='color: #1D3635;'>High-Priority Account Intervention Ledger</h3>", unsafe_allow_html=True)
     st.markdown("<p style='color: #574951; font-size: 0.85rem;'>Accounts selected by the MILP solver to maximize preserved ARR within the allocated retention capital.</p>", unsafe_allow_html=True)
     
     ledger_data = df_cohort[df_cohort["Target_Intervention"] == 1].sort_values(by="Expected_Saved_ARR", ascending=False).copy()
@@ -330,7 +332,7 @@ with tab1:
         )
 
 with tab2:
-    st.markdown("### Risk Exposure vs. Lifetime Value Matrix")
+    st.markdown("<h3 style='color: #1D3635;'>Risk Exposure vs. Lifetime Value Matrix</h3>", unsafe_allow_html=True)
     st.markdown(
         "<p style='color: #574951; font-size: 0.85rem; margin-bottom: 12px;'>"
         "Visualizes individual accounts by Churn Hazard vs. Projected CLV. "
@@ -351,7 +353,7 @@ with tab2:
             mode="markers",
             name="Pass / Monitor",
             marker=dict(
-                color="rgba(87, 73, 81, 0.3)",
+                color="rgba(87, 73, 81, 0.35)",
                 size=7,
                 line=dict(color="#574951", width=0.5)
             ),
@@ -392,7 +394,7 @@ with tab2:
         st.plotly_chart(fig_scatter, use_container_width=True)
 
     with col_tier:
-        st.markdown("##### Budget Allocation by Tier")
+        st.markdown("<h5 style='color: #1D3635;'>Budget Allocation by Tier</h5>", unsafe_allow_html=True)
         tier_summary = df_cohort.groupby("Tier").agg(
             Total_Accounts=("Account_ID", "count"),
             Targeted_Accounts=("Target_Intervention", "sum"),
