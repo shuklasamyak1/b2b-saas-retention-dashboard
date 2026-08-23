@@ -10,34 +10,34 @@ from sklearn.preprocessing import StandardScaler
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="B2B SaaS Customer Retention & CLV Decision Engine",
-    page_icon="💎",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- BESPOKE THEME & TYPOGRAPHY STYLING ---
+# --- REFINED EDITORIAL PALETTE & TYPOGRAPHY STYLING ---
 # Palette:
-# #2C5554 (Dark Slate / Deep Forest Teal)
-# #574951 (Dim Slate Gray)
-# #6DD5ED (Vibrant Sky Blue)
-# #CDB4DB (Soft Thistle / Lavender)
+# App Background: Soft Light Rose (#F9F1F3)
+# Sidebar & Containers: Dark Slate Slate (#2C5554 / #234544)
+# Muted Charcoal / Cards: #574951
+# Primary Highlights: #6DD5ED (Sky Blue)
+# Accents & Borders: #CDB4DB (Thistle)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
     /* Global Base */
     .stApp {
-        background-color: #1e3d3c;
-        color: #F8FAFC;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #F9F1F3;
+        color: #1E293B;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         -webkit-font-smoothing: antialiased;
     }
     
     /* Sidebar */
     section[data-testid="stSidebar"] {
-        background-color: #2C5554 !important;
-        border-right: 1px solid rgba(109, 213, 237, 0.2) !important;
-        font-family: 'Inter', sans-serif !important;
+        background-color: #234544 !important;
+        border-right: 1px solid rgba(205, 180, 219, 0.25) !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     section[data-testid="stSidebar"] h1, 
     section[data-testid="stSidebar"] h2, 
@@ -47,26 +47,48 @@ st.markdown("""
         color: #FFFFFF !important;
     }
 
-    /* Executive Glass Metric Containers */
+    /* Slider Styling (Black Track & Accents) */
+    div[data-baseweb="slider"] {
+        color: #000000 !important;
+    }
+    div[data-baseweb="slider"] div {
+        color: #000000 !important;
+    }
+    .stSlider [data-testid="stThumbValue"] {
+        color: #FFFFFF !important;
+        background-color: #000000 !important;
+        border-radius: 4px;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+    }
+    .stSlider [role="slider"] {
+        background-color: #000000 !important;
+        border: 2px solid #FFFFFF !important;
+    }
+    .stSlider [data-testid="stTrack"] > div:first-child {
+        background-color: #000000 !important;
+    }
+
+    /* Executive KPI Metric Containers */
     .metric-card {
-        background: #364449;
-        border: 1px solid rgba(109, 213, 237, 0.25);
+        background: #2C5554;
+        border: 1px solid #CDB4DB;
         border-radius: 8px;
-        padding: 14px 18px;
+        padding: 16px 20px;
         margin-bottom: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 14px rgba(44, 85, 84, 0.12);
     }
     .metric-sub {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.75rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.74rem;
         color: #CDB4DB;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
         margin-bottom: 4px;
     }
     .metric-val {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'Space Mono', monospace;
         font-size: 1.65rem;
         font-weight: 700;
         color: #6DD5ED;
@@ -74,73 +96,46 @@ st.markdown("""
         line-height: 1.2;
     }
     .metric-caption {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.74rem;
-        color: #E2E8F0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.75rem;
+        color: #F1F5F9;
         margin-top: 4px;
-    }
-
-    /* Action Badges */
-    .badge-treat {
-        background: rgba(109, 213, 237, 0.15);
-        color: #6DD5ED;
-        border: 1px solid #6DD5ED;
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    .badge-pass {
-        background: rgba(205, 180, 219, 0.15);
-        color: #CDB4DB;
-        border: 1px solid #CDB4DB;
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
     }
 
     /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        border-bottom: 1px solid rgba(109, 213, 237, 0.25);
+        border-bottom: 2px solid #CDB4DB;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #2C5554 !important;
+        background-color: #EADCE0 !important;
         border-radius: 6px 6px 0 0 !important;
-        color: #E2E8F0 !important;
-        padding: 8px 16px !important;
-        border: 1px solid rgba(109, 213, 237, 0.2) !important;
+        color: #574951 !important;
+        padding: 8px 18px !important;
+        border: 1px solid #CDB4DB !important;
         border-bottom: none !important;
-        font-family: 'Inter', sans-serif !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-size: 0.85rem !important;
         font-weight: 600 !important;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #364449 !important;
+        background-color: #2C5554 !important;
         color: #6DD5ED !important;
-        border: 1px solid #6DD5ED !important;
+        border: 1px solid #2C5554 !important;
         border-bottom: 2px solid #6DD5ED !important;
         font-weight: 700 !important;
     }
 
     /* Headings & Text */
     h1, h2, h3, h4 {
-        color: #FFFFFF !important;
-        font-family: 'Inter', sans-serif !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.4px;
+        color: #2C5554 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.5px;
     }
     p, span, label {
-        color: #F1F5F9;
-        font-family: 'Inter', sans-serif;
-    }
-
-    /* Sliders & Interactive Elements */
-    .stSlider > div {
-        color: #6DD5ED !important;
+        color: #334155;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -199,11 +194,11 @@ clf.fit(X_scaled, y)
 
 df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 
-# CLV Formulation (Assuming 80% Gross Margin with 24-month cap)
+# CLV Formulation (Assuming 80% Gross Margin with baseline hazard rate cap)
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.markdown("<h3 style='color: #CDB4DB;'>⚙️ Retention Budget & Interventions</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color: #6DD5ED;'>Retention Budget & Parameters</h3>", unsafe_allow_html=True)
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
@@ -239,6 +234,11 @@ df_cohort["Expected_Saved_ARR"] = np.where(
     df_cohort["Predicted_Churn_Prob"] * expected_uplift * df_cohort["ARR"],
     0.0
 )
+df_cohort["Expected_Net_ROI"] = np.where(
+    df_cohort["Target_Intervention"] == 1,
+    ((df_cohort["Expected_Saved_ARR"] - intervention_cost) / intervention_cost) * 100,
+    0.0
+)
 
 # Executive Metrics
 total_accounts_targeted = df_cohort["Target_Intervention"].sum()
@@ -247,8 +247,8 @@ total_arr_saved = df_cohort["Expected_Saved_ARR"].sum()
 net_roi = ((total_arr_saved - total_spend_allocated) / total_spend_allocated) * 100 if total_spend_allocated > 0 else 0
 
 # --- UI HEADER ---
-st.markdown("<h1 style='margin-bottom: 2px;'>💎 B2B SaaS Customer Retention & CLV Decision Engine</h1>", unsafe_allow_html=True)
-st.markdown("<p style='color: #6DD5ED; font-size: 0.95rem; margin-top: 0px;'>Predictive ML Churn Risk Scoring, Calibrated CLV, and Prescriptive MILP Budget Optimization</p>", unsafe_allow_html=True)
+st.markdown("<h1 style='margin-bottom: 2px;'>B2B SaaS Customer Retention & CLV Decision Engine</h1>", unsafe_allow_html=True)
+st.markdown("<p style='color: #574951; font-size: 0.95rem; margin-top: 0px;'>Predictive ML Churn Risk Scoring, Calibrated CLV, and Prescriptive MILP Budget Optimization</p>", unsafe_allow_html=True)
 
 # --- KPI METRICS STRIP ---
 st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
@@ -261,57 +261,163 @@ with k2:
 with k3:
     st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Net Campaign ROI</div><div class='metric-val' style='color: #CDB4DB;'>{net_roi:.1f}%</div><div class='metric-caption'>Net protected ARR / spend</div></div>""", unsafe_allow_html=True)
 with k4:
-    st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Cohort At-Risk ARR</div><div class='metric-val' style='color: #FFAAA6;'>€{(df_cohort['Predicted_Churn_Prob'] * df_cohort['ARR']).sum():,.0f}</div><div class='metric-caption'>Gross churn exposure</div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class='metric-card'><div class='metric-sub'>Cohort At-Risk ARR</div><div class='metric-val' style='color: #FEA6A2;'>€{(df_cohort['Predicted_Churn_Prob'] * df_cohort['ARR']).sum():,.0f}</div><div class='metric-caption'>Gross churn exposure</div></div>""", unsafe_allow_html=True)
 
-# Custom Plotly Palette Template
+# Plotly Canvas Theme
 PLOTLY_THEME = {
     "layout": {
-        "paper_bgcolor": "#364449",
-        "plot_bgcolor": "#253337",
-        "font": {"color": "#FFFFFF", "family": "Inter, sans-serif"},
+        "paper_bgcolor": "#FFFFFF",
+        "plot_bgcolor": "#F9F1F3",
+        "font": {"color": "#1E293B", "family": "Plus Jakarta Sans, sans-serif"},
         "xaxis": {
-            "gridcolor": "rgba(109, 213, 237, 0.15)",
-            "zerolinecolor": "rgba(109, 213, 237, 0.2)",
-            "tickfont": {"family": "JetBrains Mono, monospace", "size": 11}
+            "gridcolor": "#E2E8F0",
+            "zerolinecolor": "#CBD5E1",
+            "tickfont": {"family": "Space Mono, monospace", "size": 11}
         },
         "yaxis": {
-            "gridcolor": "rgba(109, 213, 237, 0.15)",
-            "zerolinecolor": "rgba(109, 213, 237, 0.2)",
-            "tickfont": {"family": "JetBrains Mono, monospace", "size": 11}
+            "gridcolor": "#E2E8F0",
+            "zerolinecolor": "#CBD5E1",
+            "tickfont": {"family": "Space Mono, monospace", "size": 11}
         }
     }
 }
 
 # --- ANALYTICS WORKBENCH ---
-tab1, tab2 = st.tabs([" Prescriptive Retention Ledger", " Churn Probability vs. CLV Matrix"])
+tab1, tab2 = st.tabs(["Prescriptive Retention Ledger", "Risk Exposure vs. Lifetime Value Matrix"])
 
 with tab1:
-    st.markdown("###  High-Priority Account Intervention Ledger")
-    display_df = df_cohort[df_cohort["Target_Intervention"] == 1].sort_values(by="Expected_Saved_ARR", ascending=False)[
-        ["Account_ID", "Tier", "MRR", "Predicted_Churn_Prob", "CLV", "Expected_Saved_ARR"]
-    ].copy()
-    display_df["Predicted_Churn_Prob"] = (display_df["Predicted_Churn_Prob"] * 100).map("{:.1f}%".format)
-    display_df["MRR"] = display_df["MRR"].map("€{:,.2f}".format)
-    display_df["CLV"] = display_df["CLV"].map("€{:,.0f}".format)
-    display_df["Expected_Saved_ARR"] = display_df["Expected_Saved_ARR"].map("€{:,.0f}".format)
-    st.dataframe(display_df, use_container_width=True, hide_index=True)
+    st.markdown("### High-Priority Account Intervention Ledger")
+    st.markdown("<p style='color: #574951; font-size: 0.85rem;'>Accounts selected by the MILP solver to maximize preserved ARR within the allocated retention capital.</p>", unsafe_allow_html=True)
+    
+    ledger_data = df_cohort[df_cohort["Target_Intervention"] == 1].sort_values(by="Expected_Saved_ARR", ascending=False).copy()
+    
+    # Visual KPI Metric Display for Top Action
+    col_t1, col_t2 = st.columns([3, 1])
+    with col_t2:
+        st.markdown(f"""
+        <div style='background: #FFFFFF; border: 1px solid #CDB4DB; border-radius: 8px; padding: 14px; margin-bottom: 10px;'>
+            <div style='font-size: 0.72rem; color: #574951; font-weight: 700; text-transform: uppercase;'>Intervention Density</div>
+            <div style='font-family: "Space Mono", monospace; font-size: 1.4rem; font-weight: 700; color: #2C5554;'>{(total_accounts_targeted/len(df_cohort))*100:.1f}%</div>
+            <div style='font-size: 0.72rem; color: #64748B;'>{total_accounts_targeted} of {len(df_cohort)} Total Accounts</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_t1:
+        st.dataframe(
+            ledger_data[[
+                "Account_ID", "Tier", "MRR", "Predicted_Churn_Prob", "CLV", "Expected_Saved_ARR", "Expected_Net_ROI"
+            ]],
+            column_config={
+                "Account_ID": st.column_config.TextColumn("Account ID"),
+                "Tier": st.column_config.TextColumn("Subscription Tier"),
+                "MRR": st.column_config.NumberColumn("Monthly Recurring Revenue", format="€%.2f"),
+                "Predicted_Churn_Prob": st.column_config.ProgressColumn(
+                    "Churn Hazard Rate",
+                    format="%.1f%%",
+                    min_value=0.0,
+                    max_value=1.0
+                ),
+                "CLV": st.column_config.NumberColumn("Customer Lifetime Value", format="€%d"),
+                "Expected_Saved_ARR": st.column_config.NumberColumn("Protected ARR", format="€%d"),
+                "Expected_Net_ROI": st.column_config.NumberColumn("Expected Net ROI", format="%.0f%%")
+            },
+            use_container_width=True,
+            hide_index=True
+        )
 
 with tab2:
-    st.markdown("###  Risk Exposure vs. Lifetime Value Matrix")
-    fig_scatter = px.scatter(
-        df_cohort,
-        x="Predicted_Churn_Prob",
-        y="CLV",
-        color=df_cohort["Target_Intervention"].map({1: "Target Offer", 0: "Pass / Monitor"}),
-        size="MRR",
-        hover_data=["Account_ID", "Tier", "ARR"],
-        color_discrete_map={"Target Offer": "#6DD5ED", "Pass / Monitor": "#CDB4DB"},
-        labels={"Predicted_Churn_Prob": "Predicted Churn Probability", "CLV": "Customer Lifetime Value (€)"}
+    st.markdown("### Risk Exposure vs. Lifetime Value Matrix")
+    st.markdown(
+        "<p style='color: #574951; font-size: 0.85rem; margin-bottom: 12px;'>"
+        "Visualizes individual accounts by Churn Hazard vs. Projected CLV. "
+        "The solver prioritizes the <b>High Value & High Risk (Upper Right)</b> quadrant to maximize preserved recurring revenue."
+        "</p>", 
+        unsafe_allow_html=True
     )
-    fig_scatter.update_layout(
-        template=PLOTLY_THEME,
-        height=380,
-        margin=dict(l=20, r=20, t=30, b=20),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-    )
-    st.plotly_chart(fig_scatter, use_container_width=True)
+    
+    col_chart, col_tier = st.columns([3, 2])
+    
+    with col_chart:
+        fig_scatter = go.Figure()
+
+        # Non-Targeted Accounts
+        pass_df = df_cohort[df_cohort["Target_Intervention"] == 0]
+        fig_scatter.add_trace(go.Scatter(
+            x=pass_df["Predicted_Churn_Prob"] * 100,
+            y=pass_df["CLV"],
+            mode="markers",
+            name="Pass / Monitor",
+            marker=dict(
+                color="rgba(87, 73, 81, 0.3)",
+                size=7,
+                line=dict(color="#574951", width=0.5)
+            ),
+            hovertemplate="<b>%{text}</b><br>Churn Prob: %{x:.1f}%<br>CLV: €%{y:,.0f}<extra></extra>",
+            text=pass_df["Account_ID"]
+        ))
+
+        # Targeted Accounts
+        treat_df = df_cohort[df_cohort["Target_Intervention"] == 1]
+        fig_scatter.add_trace(go.Scatter(
+            x=treat_df["Predicted_Churn_Prob"] * 100,
+            y=treat_df["CLV"],
+            mode="markers",
+            name="Target Retention Offer",
+            marker=dict(
+                color="#2C5554",
+                size=10,
+                line=dict(color="#6DD5ED", width=1.5),
+                symbol="circle"
+            ),
+            hovertemplate="<b>%{text}</b> (Targeted)<br>Churn Prob: %{x:.1f}%<br>CLV: €%{y:,.0f}<extra></extra>",
+            text=treat_df["Account_ID"]
+        ))
+
+        avg_churn = (df_cohort["Predicted_Churn_Prob"].mean()) * 100
+        med_clv = df_cohort["CLV"].median()
+        
+        fig_scatter.add_vline(x=avg_churn, line_dash="dash", line_color="rgba(44, 85, 84, 0.4)", line_width=1.5)
+        fig_scatter.add_hline(y=med_clv, line_dash="dash", line_color="rgba(44, 85, 84, 0.4)", line_width=1.5)
+
+        fig_scatter.update_layout(
+            template=PLOTLY_THEME,
+            height=360,
+            margin=dict(l=20, r=20, t=30, b=20),
+            xaxis=dict(title="Predicted Churn Probability (%)", ticksuffix="%"),
+            yaxis=dict(title="Customer Lifetime Value (€)", tickprefix="€"),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+        st.plotly_chart(fig_scatter, use_container_width=True)
+
+    with col_tier:
+        st.markdown("##### Budget Allocation by Tier")
+        tier_summary = df_cohort.groupby("Tier").agg(
+            Total_Accounts=("Account_ID", "count"),
+            Targeted_Accounts=("Target_Intervention", "sum"),
+            Saved_ARR=("Expected_Saved_ARR", "sum")
+        ).reset_index()
+
+        fig_tier = go.Figure()
+        fig_tier.add_trace(go.Bar(
+            x=tier_summary["Tier"],
+            y=tier_summary["Targeted_Accounts"],
+            name="Targeted Accounts",
+            marker_color="#2C5554"
+        ))
+        fig_tier.add_trace(go.Bar(
+            x=tier_summary["Tier"],
+            y=tier_summary["Total_Accounts"] - tier_summary["Targeted_Accounts"],
+            name="Untargeted",
+            marker_color="rgba(205, 180, 219, 0.5)"
+        ))
+        
+        fig_tier.update_layout(
+            barmode="stack",
+            template=PLOTLY_THEME,
+            height=320,
+            margin=dict(l=20, r=20, t=30, b=20),
+            xaxis=dict(title="Subscription Tier"),
+            yaxis=dict(title="Number of Accounts"),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+        st.plotly_chart(fig_tier, use_container_width=True)
