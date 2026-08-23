@@ -45,10 +45,14 @@ st.markdown("""
         color: #1D3635;
     }
 
-    /* Sidebar Styling & High Contrast */
+    /* Sidebar Styling & Fix Top Padding for Toggle */
     section[data-testid="stSidebar"] {
         background-color: #1D3635 !important;
         border-right: 1px solid rgba(205, 180, 219, 0.3) !important;
+    }
+
+    section[data-testid="stSidebar"] > div:first-child {
+        padding-top: 3.5rem !important;
     }
 
     section[data-testid="stSidebar"] * {
@@ -216,7 +220,7 @@ df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.markdown("<h3 style='color: #FFFFFF !important; margin-bottom: 12px; font-weight: 800;'>Retention Parameters</h3>", unsafe_allow_html=True)
+st.sidebar.subheader("Retention Parameters")
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
