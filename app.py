@@ -56,6 +56,14 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h4 {
+        color: #FFFFFF !important;
+        font-weight: 800 !important;
+    }
+
     section[data-testid="stSidebar"] label,
     section[data-testid="stSidebar"] label span,
     section[data-testid="stSidebar"] label p,
@@ -63,6 +71,7 @@ st.markdown("""
         color: #FFFFFF !important;
         font-size: 0.92rem !important;
         font-weight: 600 !important;
+        opacity: 1 !important;
     }
 
     section[data-testid="stSidebar"] div[data-testid="stThumbValue"] {
@@ -207,7 +216,7 @@ df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.markdown("<h3 style='color: #6DD5ED; margin-bottom: 12px;'>Retention Parameters</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color: #FFFFFF !important; margin-bottom: 12px; font-weight: 800;'>Retention Parameters</h3>", unsafe_allow_html=True)
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
