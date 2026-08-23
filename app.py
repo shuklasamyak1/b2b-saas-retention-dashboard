@@ -16,57 +16,69 @@ st.set_page_config(
 
 # --- REFINED EDITORIAL PALETTE & TYPOGRAPHY STYLING ---
 # Palette:
-# App Background: Soft Light Rose (#F9F1F3)
-# Sidebar & Containers: Dark Slate Slate (#2C5554 / #234544)
-# Muted Charcoal / Cards: #574951
-# Primary Highlights: #6DD5ED (Sky Blue)
-# Accents & Borders: #CDB4DB (Thistle)
+# App Background: Soft Light Rose / Oyster White (#F8F4F6)
+# Sidebar: Deep Slate Forest (#1D3635)
+# Card Containers: Slate Teal (#2C5554)
+# Primary Highlights: #6DD5ED (Sky Blue) & #FFFFFF (Pure White)
+# Secondary Accents: #CDB4DB (Thistle) & #574951 (Slate Charcoal)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
     /* Global Base */
     .stApp {
-        background-color: #F9F1F3;
+        background-color: #F8F4F6;
         color: #1E293B;
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         -webkit-font-smoothing: antialiased;
     }
     
-    /* Sidebar */
+    /* Sidebar Strict Contrast Fixes */
     section[data-testid="stSidebar"] {
-        background-color: #234544 !important;
+        background-color: #1D3635 !important;
         border-right: 1px solid rgba(205, 180, 219, 0.25) !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     section[data-testid="stSidebar"] h1, 
     section[data-testid="stSidebar"] h2, 
     section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h4,
+    section[data-testid="stSidebar"] .stMarkdown,
+    section[data-testid="stSidebar"] .stMarkdown p {
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Target Slider Labels & Numerical Values Directly */
     section[data-testid="stSidebar"] label,
-    section[data-testid="stSidebar"] .stMarkdown {
+    section[data-testid="stSidebar"] label p,
+    section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p {
         color: #FFFFFF !important;
+        font-size: 0.92rem !important;
+        font-weight: 600 !important;
     }
-
-    /* Slider Styling (Black Track & Accents) */
-    div[data-baseweb="slider"] {
-        color: #000000 !important;
+    
+    /* Active Slider Number Indicator */
+    section[data-testid="stSidebar"] div[data-testid="stThumbValue"] {
+        color: #1D3635 !important;
+        background-color: #6DD5ED !important;
+        font-family: 'Space Mono', monospace !important;
+        font-weight: 700 !important;
+        border-radius: 4px !important;
+        padding: 2px 6px !important;
     }
-    div[data-baseweb="slider"] div {
-        color: #000000 !important;
-    }
-    .stSlider [data-testid="stThumbValue"] {
-        color: #FFFFFF !important;
-        background-color: #000000 !important;
-        border-radius: 4px;
-        font-family: 'Space Mono', monospace;
-        font-size: 0.75rem;
-    }
-    .stSlider [role="slider"] {
-        background-color: #000000 !important;
+    
+    /* Slider Track Styling */
+    section[data-testid="stSidebar"] div[role="slider"] {
+        background-color: #6DD5ED !important;
         border: 2px solid #FFFFFF !important;
+        box-shadow: 0 0 6px rgba(109, 213, 237, 0.5) !important;
     }
-    .stSlider [data-testid="stTrack"] > div:first-child {
-        background-color: #000000 !important;
+    section[data-testid="stSidebar"] div[data-testid="stSlider"] div[data-baseweb="slider"] div div {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stSlider"] div[data-baseweb="slider"] div div div {
+        background-color: #6DD5ED !important;
     }
 
     /* Executive KPI Metric Containers */
@@ -128,12 +140,12 @@ st.markdown("""
 
     /* Headings & Text */
     h1, h2, h3, h4 {
-        color: #2C5554 !important;
+        color: #1D3635 !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 800 !important;
         letter-spacing: -0.5px;
     }
-    p, span, label {
+    p, span {
         color: #334155;
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
@@ -198,7 +210,7 @@ df_cohort["Predicted_Churn_Prob"] = clf.predict_proba(X_scaled)[:, 1]
 df_cohort["CLV"] = np.round(df_cohort["MRR"] * 0.80 * (1 / np.clip(df_cohort["Predicted_Churn_Prob"] / 12, 0.05, 1.0)), 2)
 
 # --- SIDEBAR CONTROLS ---
-st.sidebar.markdown("<h3 style='color: #6DD5ED;'>Retention Budget & Parameters</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color: #6DD5ED; margin-bottom: 12px;'>Retention Budget & Parameters</h3>", unsafe_allow_html=True)
 retention_budget = st.sidebar.slider("Total Retention Budget (€)", min_value=1000, max_value=25000, value=7500, step=500)
 intervention_cost = st.sidebar.slider("Cost per Account Offer (€)", min_value=50, max_value=800, value=250, step=25)
 expected_uplift = st.sidebar.slider("Expected Retention Uplift (%)", min_value=5, max_value=50, value=20, step=1) / 100.0
@@ -267,7 +279,7 @@ with k4:
 PLOTLY_THEME = {
     "layout": {
         "paper_bgcolor": "#FFFFFF",
-        "plot_bgcolor": "#F9F1F3",
+        "plot_bgcolor": "#F8F4F6",
         "font": {"color": "#1E293B", "family": "Plus Jakarta Sans, sans-serif"},
         "xaxis": {
             "gridcolor": "#E2E8F0",
