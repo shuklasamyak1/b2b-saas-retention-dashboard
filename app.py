@@ -235,21 +235,22 @@ def optimize_retention(df, budget, cost_per_offer, uplift):
     prob = pulp.LpProblem("Retention_Budget_Optimization", pulp.LpMaximize)
     accounts = df["Account_ID"].tolist()
     
-    x = {a: pulp.LpVariable(f"Treat_{a}", cat="Binary") for a in accounts}
+    # Robust binary variable declaration using LpBinary
+    x = pulp.LpVariable.dicts("Treat", accounts, lowBound=0, upBound=1, cat=pulp.LpBinary)
     
     value_map = {}
     for _, row in df.iterrows():
         a = row["Account_ID"]
-        expected_saved = (row["Predicted_Churn_Prob"] * uplift * row["CLV"]) - cost_per_offer
+        expected_saved = (float(row["Predicted_Churn_Prob"]) * float(uplift) * float(row["CLV"])) - float(cost_per_offer)
         value_map[a] = expected_saved
         
     prob += pulp.lpSum([x[a] * value_map[a] for a in accounts])
-    prob += pulp.lpSum([x[a] * cost_per_offer for a in accounts]) <= budget
+    prob += pulp.lpSum([x[a] * float(cost_per_offer) for a in accounts]) <= float(budget)
     
     solver = pulp.PULP_CBC_CMD(msg=0)
     prob.solve(solver)
     
-    treated = {a: int(x[a].varValue) if x[a].varValue is not None else 0 for a in accounts}
+    treated = {a: int(round(float(x[a].varValue))) if x[a].varValue is not None else 0 for a in accounts}
     return treated
 
 treatment_dict = optimize_retention(df_cohort, retention_budget, intervention_cost, expected_uplift)
@@ -266,10 +267,10 @@ df_cohort["Expected_Net_ROI"] = np.where(
 )
 
 # Executive Metrics
-total_accounts_targeted = df_cohort["Target_Intervention"].sum()
-total_spend_allocated = total_accounts_targeted * intervention_cost
-total_arr_saved = df_cohort["Expected_Saved_ARR"].sum()
-net_roi = ((total_arr_saved - total_spend_allocated) / total_spend_allocated) * 100 if total_spend_allocated > 0 else 0
+total_accounts_targeted = int(df_cohort["Target_Intervention"].sum())
+total_spend_allocated = float(total_accounts_targeted * intervention_cost)
+total_arr_saved = float(df_cohort["Expected_Saved_ARR"].sum())
+net_roi = ((total_arr_saved - total_spend_allocated) / total_spend_allocated) * 100 if total_spend_allocated > 0 else 0.0
 
 # --- UI HEADER ---
 st.markdown("<h1 style='margin-bottom: 2px; color: #1D3635;'>B2B SaaS Customer Retention & CLV Decision Engine</h1>", unsafe_allow_html=True)
